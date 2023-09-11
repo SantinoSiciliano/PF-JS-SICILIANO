@@ -1,33 +1,49 @@
-class Auto {
-    constructor(nombreDelAuto,precioDelAuto) {
-      this.nombreDelAuto = nombreDelAuto
-      this.precioDelAuto = precioDelAuto
+const formCompra = document.querySelector('#formCompra');
+const inputNombre = document.querySelector('#inputNombre');
+const inputPrecio = document.querySelector('#inputPrecio');
+const divListaDeVehiculos = document.querySelector('#listaDeVehiculos');
+const seccionCompraRealizada = document.querySelector('#seccionCompraRealizada');
+
+// Obtener datos de autos desde el almacenamiento local
+const autos = JSON.parse(localStorage.getItem('autos')) || [];
+// Mostrar la sección de compra realizada en la página web
+mostrarCompraRealizada();
+// clase llamada Vehiculo
+class Vehiculo {
+  constructor({ nombre, precio }) {
+    this.nombre = nombre;
+    this.precio = precio;
+  }
+}
+// Manejar el envío del formulario
+formCompra.onsubmit = e => {
+  // Evitar que se recargue la página por defecto
+  e.preventDefault(); 
+// Obtener el nombre y el precio ingresados en el formulario
+  const nombre = inputNombre.value;
+  const precio = inputPrecio.value;
+
+  const auto = new Vehiculo({ nombre, precio });
+// guardar el auto en la lista 
+  guardarAuto(auto);
+}
+
+function guardarAuto(auto) {
+  autos.push(auto);// Agregar el automóvil a la lista
+  localStorage.setItem('autos', JSON.stringify(autos));
+  mostrarCompraRealizada();
+}
+// mostrar la compra realizada 
+function mostrarCompraRealizada() {
+  if (autos.length > 0) {
+// compra realizada
+    seccionCompraRealizada.style.display = 'block';
+    let listaVehiculoHtml = '<ul>';
+    // construir la lista HTML
+    for (const auto of autos) {
+      listaVehiculoHtml += `<li>${auto.nombre}</a></li>`;
     }
+    // Mostrar la lista en el HTML
+    divListaDeVehiculos.innerHTML = listaVehiculoHtml + '</ul>';
   }
-  
-//la compra del auto
-  function procesoDeCompraDelAuto() {
-    const precioDelAuto = parseFloat(prompt('ingrese el precio del vehiculo'))
-    const nombreDelAuto = prompt('ingrese el nombre del vehiculo que compro')
-    return new Auto(nombreDelAuto,precioDelAuto)
-  }
-//pregunta de seguir comprando  
-  const Autos = []
-     
-  let continuaComprandoAutos = true
-  while (continuaComprandoAutos) {
-    const aut = procesoDeCompraDelAuto()
-  
-    Autos.push(aut)
-  
-    const respuesta = prompt('quiere comprar algun autos mas? si/no')
-    if (respuesta === 'no') {
-        continuaComprandoAutos = false
-    }
-  }
-// total del auto  
-  let total = 0
-  const precio = Autos.map(p => p.precioDelAuto)
-  precio.forEach(p => { total = total + p })
-  
-  alert('precio total de vehiculo adquirido'   +   total)
+}

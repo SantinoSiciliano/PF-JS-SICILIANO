@@ -4,10 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <script src="index.js"></script>
     <title>Concesionaria</title>
 </head>
+
 <body>
-    
+    <form id="formCompra">
+    <h1>Concesionaria</h1>
+     <label for="inputNombre"></label><input id="inputNombre" type="text" placeholder="Vehiculo">
+     <label for="inputPrecio"></label><input id="inputPrecio" type="text" placeholder="Tu Oferta">
+     <input type="submit" value="Comprar">
+    </form>
+
+    <div id="seccionCompraRealizada" style="display:none;">
+     <h2>Compra</h2>
+     <p>Oferta aceptada gracias por su compra</p>
+     <div id="listaDeVehiculos"></div>
+    </div>
+    <script src="index.js"></script>
 </body>
+
 </html>
